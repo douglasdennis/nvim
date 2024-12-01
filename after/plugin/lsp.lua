@@ -1,3 +1,4 @@
+-- this provides nice defaults
 local lsp = require("lsp-zero")
 
 lsp.on_attach(function(client, bufnr)
@@ -19,16 +20,33 @@ require("mason").setup({})
 -- is there some way to do this automagically?
 -- this is where pylsp puts its environment: "/home/doug/.local/share/nvim/mason/packages/python-lsp-server/venv"
 require("mason-lspconfig").setup({
-	ensure_installed = {'tsserver', 'rust_analyzer', 'pylsp'},
+	ensure_installed = {'ts_ls', 'rust_analyzer', 'pylsp', "ruff"},
 	handlers = {
 		lsp.default_setup,
 		lua_ls = function()
 			local lua_opts = lsp.nvim_lua_ls()
 			require("lspconfig").lua_ls.setup(lua_opts)
-		end
+		end,
 	}
 })
 
+require("lspconfig").pylsp.setup{
+    settings={
+        pylsp={
+            plugins={
+                pycodestyle={
+                    enabled=false,
+                }
+            }
+        }
+    }
+}
+
+require("lspconfig").ruff.setup{
+    settings={}
+}
+
+-- autocomplete library
 local cmp = require("cmp")
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
