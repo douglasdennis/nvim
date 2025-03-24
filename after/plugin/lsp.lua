@@ -20,11 +20,19 @@ require("mason").setup({})
 -- is there some way to do this automagically?
 -- this is where pylsp puts its environment: "/home/doug/.local/share/nvim/mason/packages/python-lsp-server/venv"
 require("mason-lspconfig").setup({
-	ensure_installed = {'ts_ls', 'rust_analyzer', 'pylsp', "ruff"},
+	ensure_installed = {'ts_ls', 'pylsp', "ruff", "lua_ls"},
 	handlers = {
 		lsp.default_setup,
 		lua_ls = function()
 			local lua_opts = lsp.nvim_lua_ls()
+            local library = lua_opts.settings.Lua.workspace.library
+
+            -- grab paths to all of the installed plugins (this only kinda works)
+            for _, v in pairs(vim.opt.rtp:get()) do
+                if string.find(v, "/lazy/") then
+                    library[#library + 1] = v .. "/lua"
+                end
+            end
 			require("lspconfig").lua_ls.setup(lua_opts)
 		end,
 	}

@@ -17,8 +17,19 @@ require("lazy").setup({
 		dependencies = { "nvim-lua/plenary.nvim" }
 	},
     {
-		"rose-pine/neovim", name = "rose-pine"
-	},
+        "catppuccin/nvim",
+        name = "catppuccin",
+        priority = 1000,
+        opts = {
+            color_overrides = {
+                mocha = {
+                    base = "#000000",
+                    mantle = "#000000",
+                    crust = "#000000",
+                },
+            },
+        },
+    },
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
@@ -26,7 +37,7 @@ require("lazy").setup({
 			local configs = require("nvim-treesitter.configs")
 
 			configs.setup({
-				ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "javascript", "html", "python", "java", "sql", "scala" },
+				ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "javascript", "html", "python", "java", "rust", "sql", "scala" },
 				sync_install = false,
 				highlight = { enable = true },
 				indent = { enable = true },
@@ -41,6 +52,7 @@ require("lazy").setup({
 	{ "hrsh7th/cmp-nvim-lsp" },
 	{ "hrsh7th/nvim-cmp" },
 	{ "L3MON4D3/LuaSnip" },
+    { "mrcjkb/rustaceanvim", version = '^5', lazy = false },
 })
 -- require("lazy").setup({
 -- 	"folke/which-key.nvim",
