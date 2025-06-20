@@ -53,6 +53,16 @@ require("lazy").setup({
 	{ "hrsh7th/nvim-cmp" },
 	{ "L3MON4D3/LuaSnip" },
     { "mrcjkb/rustaceanvim", version = '^5', lazy = false },
+    { "nvimtools/none-ls.nvim", config = function()
+        local none_ls = require("null-ls")
+        none_ls.setup({
+          sources = {
+            none_ls.builtins.formatting.stylua,
+            none_ls.builtins.formatting.prettier,
+          },
+        })
+      end
+    },
 })
 -- require("lazy").setup({
 -- 	"folke/which-key.nvim",
